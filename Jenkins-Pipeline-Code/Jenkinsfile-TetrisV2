@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Checkout from Git') {
             steps {
-                git branch: 'master', url: 'https://github.com/bhanuprakash678910/e2e-k8s-project1.git'
+                git branch: 'master', url: 'https://github.com/bharatho3/e2e-k8s-project1.git'
             }
         }
         stage('Sonarqube Analysis') {
@@ -74,33 +74,33 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {   
-                        sh 'docker tag tetrisv2 bhanuprakashece410/tetrisv2:${BUILD_NUMBER}'
-                        sh 'docker push bhanuprakashece410/tetrisv2:${BUILD_NUMBER}'
+                        sh 'docker tag tetrisv2 bharathgowdao3/tetrisv2:${BUILD_NUMBER}'
+                        sh 'docker push bharathgowdao3/tetrisv2:${BUILD_NUMBER}'
                     }
                 }
             }
         }
         stage("TRIVY Image Scan") {
             steps {
-                sh 'trivy image bhanuprakashece410/tetrisv2:${BUILD_NUMBER} > trivyimage.txt' 
+                sh 'trivy image bharathgowdao3/tetrisv2:${BUILD_NUMBER} > trivyimage.txt' 
             }
         }
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/bhanuprakash678910/e2e-k8s-project1.git'
+                git branch: 'master', url: 'https://github.com/bharatho3/e2e-k8s-project1.git'
             }
         }
         stage('Update Deployment file') {
             environment {
                 GIT_REPO_NAME = "e2e-k8s-project1.git"
-                GIT_USER_NAME = "bhanuprakash678910"
+                GIT_USER_NAME = "bharatho3"
             }
             steps {
                 dir('Manifest-file') {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                         sh '''
-                            git config user.email "bhanu@gmail.com"
-                            git config user.name "Bhanu-DevOps"
+                            git config user.email "bharath@gmail.com"
+                            git config user.name "Bharath-DevOps"
                             BUILD_NUMBER=${BUILD_NUMBER}
                             echo $BUILD_NUMBER
                             imageTag=$(grep -oP '(?<=tetrisv2:)[^ ]+' deployment-service.yml)
