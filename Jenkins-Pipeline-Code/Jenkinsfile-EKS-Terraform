@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout from Git') {
             steps {
-                git branch: 'master', url: 'https://github.com/bhanuprakash678910/e2e-k8s-project1.git'
+                git branch: 'master', url: 'https://github.com/bharatho3/e2e-k8s-project1.git'
             }
         }
         stage('Initializing Terraform') {
